@@ -1,0 +1,41 @@
+{
+	"name": "iancu-reseller-discord-bot",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Self-hosted Discord bot for resellers of Iancu Services Nitro claims, built on the Reseller API",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/snekROmonoro/Iancu-Reseller-Discord-Bot.git"
+	},
+	"homepage": "https://github.com/snekROmonoro/Iancu-Reseller-Discord-Bot#readme",
+	"type": "module",
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"postinstall": "prisma generate",
+		"start": "prisma db push && tsx src/index.ts",
+		"dev": "prisma db push && tsx watch src/index.ts",
+		"test": "node --import tsx --test test/*.test.ts",
+		"typecheck": "tsc",
+		"format": "prettier --write ."
+	},
+	"dependencies": {
+		"@prisma/adapter-better-sqlite3": "^7.10.0",
+		"@prisma/adapter-pg": "^7.10.0",
+		"@prisma/client": "^7.10.0",
+		"discord.js": "^14.27.0",
+		"tsx": "^4.23.15",
+		"prisma": "^7.10.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.20.4",
+		"prettier": "^3.9.9",
+		"typescript": "^7.0.2"
+	},
+	"overrides": {
+		"deepmerge-ts": "^8.0.2",
+		"mysql2": "^3.24.5"
+	}
+}

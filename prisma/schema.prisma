@@ -1,0 +1,89 @@
+// The bot's own data. Credits, orders and customers live in the Reseller API, never here.
+//
+// To use PostgreSQL instead of SQLite, change `provider` below to "postgresql" and set
+// DATABASE_URL in .env to a postgres:// address. Nothing else needs to change.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// One row (id 1). Empty strings mean "not set".
+model Settings {
+  id Int @id @default(1)
+
+  guildId     String @default("")
+  logsChannel String @default("")
+
+  emojiQueueActive    String @default("")
+  emojiQueueWaiting   String @default("")
+  emojiNitro          String @default("")
+  emojiNitroClassic   String @default("")
+  emojiNitroBasic     String @default("")
+  emojiClaimsReaction String @default("")
+
+  roleCustomer  String @default("")
+  roleClaimPing String @default("")
+
+  claimsStyle   String @default("card") // "card" (embed) or "line" (one line of text)
+  claimsChannel String @default("")
+
+  queueChannel   String  @default("")
+  queueMessage   String  @default("")
+  queueShowNames Boolean @default(true)
+  queueCount     String  @default("all") // "all" (whole queue) or "shop" (this shop's orders)
+
+  leaderboardChannel String @default("")
+  leaderboardMessage String @default("")
+
+  faqChannel String @default("")
+  faqMessage String @default("")
+
+  presence String @default("online") // online, idle, dnd or invisible
+}
+
+model Staff {
+  userId String @id
+  level  Int // 1 Moderator, 2 Administrator, 3 Super Administrator
+}
+
+model Faq {
+  id       Int    @id @default(autoincrement())
+  position Int
+  question String
+  answer   String
+}
+
+model Status {
+  id   Int    @id @default(autoincrement())
+  name String
+  type Int    @default(0) // discord.js ActivityType: 0 Playing, 1 Streaming, 2 Listening, 3 Watching, 5 Competing
+}
+
+// Where the events feed has been read up to, kept apart for "live" and "test" keys.
+model FeedPosition {
+  kind      String   @id
+  seq       Int
+  createdAt DateTime?
+}
+
+// Every change to a customer's credits, from the events feed. Live and test are kept apart.
+model CreditHistory {
+  kind        String // "live" or "test"
+  seq         Int // the feed event's number
+  customerId  String
+  change      Int
+  credits     Int // what they held after it
+  cause       String // given, taken_back, spent, refunded, transferred_in, transferred_out
+  orderId     Int?
+  counterpart String?
+  actorId     String? // who did it through the bot, when the bot knows
+  createdAt   DateTime
+
+  @@id([kind, seq])
+  @@index([kind, customerId, seq])
+}
