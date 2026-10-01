@@ -25,6 +25,9 @@ Run typecheck and tests before calling a change done.
   The driver adapter is picked in `src/db.ts` from `DATABASE_URL` (better-sqlite3, or pg for
   `postgres://`). There are **no migrations**: `db push` on start keeps it provider-agnostic, so
   schema changes must be additive or have defaults.
+- npm 12+ blocks dependency install scripts unless listed in `package.json` `allowScripts`. A new
+  dependency with an install script (native addon, binary download) must be added there, or a
+  fresh install breaks at runtime (e.g. better-sqlite3 "Could not locate the bindings file").
 - `package.json` `overrides` pin patched `deepmerge-ts`/`mysql2` (pulled in by the Prisma CLI).
   Keep `npm audit` at 0.
 - discord.js v14 with the **`Guilds` intent only**. Don't add privileged intents. Members are

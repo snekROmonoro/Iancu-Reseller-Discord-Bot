@@ -34,6 +34,12 @@
 		"prettier": "^3.9.9",
 		"typescript": "^7.0.2"
 	},
+	"allowScripts": {
+		"better-sqlite3": true,
+		"@prisma/engines": true,
+		"prisma": true,
+		"esbuild": true
+	},
 	"overrides": {
 		"deepmerge-ts": "^8.0.2",
 		"mysql2": "^3.24.5"

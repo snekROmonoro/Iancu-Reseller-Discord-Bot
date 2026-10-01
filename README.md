@@ -210,6 +210,22 @@ changing `.env` or updating.
 Download the new version (or `git pull`), run `npm install`, and restart the bot. Your settings,
 staff, FAQ and credit history are kept in `bot.db` (in `data` with Docker). Don't delete it.
 
+### Troubleshooting
+
+**`Could not locate the bindings file` (better-sqlite3) when starting.** npm 12 and newer only
+run a package's install step when the project allows it. This project allows the ones it needs
+in `package.json` (`allowScripts`). If you downloaded a copy from before that was added, download
+the project again and run `npm install`. Or run these two commands in the project folder, then
+`npm start`:
+
+```bash
+npm install-scripts approve better-sqlite3 @prisma/engines prisma esbuild
+```
+
+```bash
+npm rebuild
+```
+
 ---
 
 ## Commands
